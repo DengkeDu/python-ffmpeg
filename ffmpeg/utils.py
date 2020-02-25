@@ -47,7 +47,11 @@ def parse_progress(line):
 
     if not items:
         return None
-
+    if "N" in items['size']:
+        items['size'] = "0"
+    if "N" in items['bitrate']:
+        items['bitrate'] = "0"
+        
     return Progress(
         frame=int(items['frame']),
         fps=float(items['fps']),
