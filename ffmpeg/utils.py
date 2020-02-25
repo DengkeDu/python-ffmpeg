@@ -5,10 +5,20 @@ Progress = collections.namedtuple('Progress', [
     'frame', 'fps', 'size', 'time', 'bitrate', 'speed'
 ])
 
+Progress_psnr = collections.namedtuple('Progress_psnr',['PSNR'])
+Progress_vmaf = collections.namedtuple('Progress_vmaf',['VMAF'])
+
 progress_pattern = re.compile(
     r'(frame|fps|size|time|bitrate|speed)\s*\=\s*(\S+)'
 )
 
+vmaf_pattern = re.compile(
+    r'(VMAF)\s*score:\s*(\S+)'
+)
+
+psnr_pattern = re.compile(
+    r'(PSNR)\s*.*average:\s*(\S+)'
+)
 
 def build_options(options):
     arguments = []
@@ -44,6 +54,16 @@ def parse_progress(line):
     items = {
         key: value for key, value in progress_pattern.findall(line)
     }
+    
+    items_psnr = {}
+    items_vmaf = {}
+
+    if "PSNR" in line:
+        items_psnr = {key:value for key, value in psnr_pattern.findall(line)}
+        return Progress_psnr(PSNR=items_psnr['PSNR'])
+    if "VMAF" in line:
+        items_vmaf = {key:value for key, value in vmaf_pattern.findall(line)}
+        return Progress_vmaf(VMAF=items_vmaf['VMAF'])
 
     if not items:
         return None
