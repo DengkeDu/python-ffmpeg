@@ -7,6 +7,7 @@ Progress = collections.namedtuple('Progress', [
 
 Progress_psnr = collections.namedtuple('Progress_psnr',['PSNR'])
 Progress_vmaf = collections.namedtuple('Progress_vmaf',['VMAF'])
+Resolution = collections.namedtuple('Resolution',['resolution'])
 
 progress_pattern = re.compile(
     r'(frame|fps|size|time|bitrate|speed)\s*\=\s*(\S+)'
@@ -18,6 +19,10 @@ vmaf_pattern = re.compile(
 
 psnr_pattern = re.compile(
     r'(PSNR)\s*.*average:\s*(\S+)'
+)
+
+resolution_pattern = re.compile(
+    r'(Video).* ([0-9]+x[0-9]+)'
 )
 
 def build_options(options):
@@ -64,6 +69,9 @@ def parse_progress(line):
     if "VMAF" in line:
         items_vmaf = {key:value for key, value in vmaf_pattern.findall(line)}
         return Progress_vmaf(VMAF=items_vmaf['VMAF'])
+    if "Video:" in line:
+        items_resolution = {key:value for key, value in resolution_pattern.findall(line)}
+        return Resolution(resolution=items_resolution['Video'])
 
     if not items:
         return None
