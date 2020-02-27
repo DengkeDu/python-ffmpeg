@@ -7,6 +7,7 @@ Progress = collections.namedtuple('Progress', [
 
 Progress_psnr = collections.namedtuple('Progress_psnr',['PSNR'])
 Progress_vmaf = collections.namedtuple('Progress_vmaf',['VMAF'])
+Progress_ssim = collections.namedtuple('Progress_vmaf',['SSIM'])
 Resolution = collections.namedtuple('Resolution',['resolution'])
 
 progress_pattern = re.compile(
@@ -19,6 +20,10 @@ vmaf_pattern = re.compile(
 
 psnr_pattern = re.compile(
     r'(PSNR)\s*.*average:\s*(\S+)'
+)
+
+ssim_pattern = re.compile(
+    r'(SSIM)\s*.*ALL:\s*(\S+)'
 )
 
 resolution_pattern = re.compile(
@@ -62,7 +67,11 @@ def parse_progress(line):
     
     items_psnr = {}
     items_vmaf = {}
+    items_ssim = {}
 
+    if "SSIM" in line:
+        items_ssim = {key:value for key, value in ssim_pattern.findall(line)}
+        return Progress_ssim(SSIM=items_psnr['SSIM'])
     if "PSNR" in line:
         items_psnr = {key:value for key, value in psnr_pattern.findall(line)}
         return Progress_psnr(PSNR=items_psnr['PSNR'])
