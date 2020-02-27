@@ -7,7 +7,7 @@ Progress = collections.namedtuple('Progress', [
 
 Progress_psnr = collections.namedtuple('Progress_psnr',['PSNR'])
 Progress_vmaf = collections.namedtuple('Progress_vmaf',['VMAF'])
-Progress_ssim = collections.namedtuple('Progress_vmaf',['SSIM'])
+Progress_ssim = collections.namedtuple('Progress_ssim',['SSIM'])
 Resolution = collections.namedtuple('Resolution',['resolution'])
 
 progress_pattern = re.compile(
