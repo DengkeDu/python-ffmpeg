@@ -23,7 +23,7 @@ psnr_pattern = re.compile(
 )
 
 ssim_pattern = re.compile(
-    r'(SSIM)\s*.*ALL:\s*(\S+)'
+    r'(SSIM)\s*.*All:\s*(\S+)'
 )
 
 resolution_pattern = re.compile(
