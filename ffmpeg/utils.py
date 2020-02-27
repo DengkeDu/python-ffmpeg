@@ -71,7 +71,7 @@ def parse_progress(line):
 
     if "SSIM" in line:
         items_ssim = {key:value for key, value in ssim_pattern.findall(line)}
-        return Progress_ssim(SSIM=items_psnr['SSIM'])
+        return Progress_ssim(SSIM=items_ssim['SSIM'])
     if "PSNR" in line:
         items_psnr = {key:value for key, value in psnr_pattern.findall(line)}
         return Progress_psnr(PSNR=items_psnr['PSNR'])
